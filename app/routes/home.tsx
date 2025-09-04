@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router";
-import { Mail, Phone, MapPin, Linkedin, Github, Globe } from "lucide-react";
+import {
+  Mail, Phone, MapPin, Linkedin, Globe,
+  Cpu, Bot, Database, Smartphone, CircuitBoard, Box, Wrench, Printer, PenTool
+} from "lucide-react";
 import { motion } from "framer-motion";
 import avatarUrl from "../assets/profile.jpg";
 import logoOUrl from "../assets/logo-O.png?url";
@@ -91,6 +94,7 @@ export default function Home() {
           <SocialLink href="https://welcome.flowstudios.com.my" label="Website" icon={<Globe size={18} />} wide />
         </div>
       </div>
+      <ServicesFacilitiesCard />
     </motion.section>
   );
 }
@@ -152,4 +156,98 @@ function SocialLink({
     </a>
   );
 }
+
+function ServicesFacilitiesCard() {
+  const scopeItems = [
+    { label: "Internet of Things (IoT)", icon: <Cpu size={16} /> },
+    { label: "Automation, AI, & Big Data", icon: <Bot size={16} /> },
+    { label: "Web & Mobile Development", icon: <Smartphone size={16} /> },
+    { label: "PCB Design", icon: <CircuitBoard size={16} /> },
+    { label: "3D CAD Design", icon: <Box size={16} /> },
+    { label: "Engineering Services", icon: <Wrench size={16} /> },
+  ];
+
+  const facilityItems = [
+    { label: "3D Printing Services", icon: <Printer size={16} /> },
+    { label: "3D Design Services", icon: <PenTool size={16} /> },
+    { label: "PCB Fabrication", icon: <CircuitBoard size={16} /> },
+  ];
+
+  return (
+    <section
+      className="mt-8 w-full rounded-3xl p-6 shadow-2xl border relative overflow-hidden isolate"
+      style={{ background: COLORS.offwhite, borderColor: "#EAEAE5" }}
+    >
+      {/* Background logo (same as main card) */}
+      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+        <img
+          src={logoOUrl /* or "/assets/logo-O.png" */}
+          alt=""
+          aria-hidden="true"
+          className="max-w-[80%] max-h-[80%] object-contain"
+          style={{ opacity: 0.07 }}  // 7% opacity
+        />
+      </div>
+
+      {/* Foreground content */}
+      <div className="relative z-10">
+        <header className="mb-4">
+          <h2 className="text-xl font-bold" style={{ color: COLORS.black }}>
+            Scope of Services & Facilities
+          </h2>
+          <p className="mt-1 text-sm" style={{ color: "#555" }}>
+            What Flow Studios Sdn. Bhd. offers.
+          </p>
+        </header>
+
+        <div className="my-4 h-px w-full" style={{ background: "#E4E4DE" }} />
+
+        {/* Two-column responsive layout */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#666" }}>
+              Scope of Services
+            </h3>
+            <ul className="flex flex-wrap gap-2">
+              {scopeItems.map((item) => (
+                <li key={item.label}>
+                  <Pill icon={item.icon} label={item.label} />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-3" style={{ color: "#666" }}>
+              Facilities
+            </h3>
+            <ul className="flex flex-wrap gap-2">
+              {facilityItems.map((item) => (
+                <li key={item.label}>
+                  <Pill icon={item.icon} label={item.label} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+function Pill({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium"
+      style={{ borderColor: "#EAEAE5", background: "#FFFFFF", color: COLORS.black }}
+    >
+      <span className="rounded-md p-1 text-white" style={{ background: COLORS.accent }}>
+        {icon}
+      </span>
+      <span className="leading-tight">{label}</span>
+    </div>
+  );
+}
+
 
