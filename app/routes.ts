@@ -7,6 +7,9 @@ export default [
   // Contact page:
   route("contact", "./routes/contact.tsx"),
 
+  //about me page:
+  route("about-me", "./routes/about-me.tsx"),
+
   // Keep your existing Welcome page at /welcome:
   route("welcome", "./welcome/welcome.tsx"),
 ] satisfies RouteConfig;

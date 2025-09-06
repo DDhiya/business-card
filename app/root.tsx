@@ -41,8 +41,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
             {/* right: links */}
             <div className="flex items-center gap-3 text-sm" style={{ color: "#F7F7F3" }}>
-              {/* <Link to="/" className="hover:opacity-80 transition-opacity">Card</Link>
-              <Link to="/contact" className="hover:opacity-80 transition-opacity">Contact</Link> */}
+              <Link to="/" className="hover:opacity-80 transition-opacity">Card</Link>
+              <Link to="/contact" className="hover:opacity-80 transition-opacity">Contact Us!</Link>
             </div>
           </nav>
         </header>

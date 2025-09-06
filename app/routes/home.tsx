@@ -48,18 +48,13 @@ export default function Home() {
           </div>
 
           {/* CTAs */}
-          {/* <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
-            <a href="#" target="_blank" rel="noreferrer"
-               className="rounded-full px-4 py-2 text-sm font-semibold text-white"
-               style={{ background: COLORS.accent }}>
-              View Résumé
-            </a>
-            <Link to="/contact"
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/about-me"
                   className="rounded-full px-4 py-2 text-sm font-semibold"
                   style={{ color: COLORS.black, background: "#EDEDE8" }}>
-              Get In Touch
+              About Me
             </Link>
-          </div> */}
+          </div>
         </div>
 
         <div className="my-6 h-px w-full" style={{ background: "#E4E4DE" }} />
