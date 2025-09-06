@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 className="text-sm font-semibold tracking-wide whitespace-nowrap"
                 style={{ color: "#F7F7F3" }}
               >
-                Flow Studios Sdn. Bhd.
+                Flow Studios
               </Link>
             </div>
             {/* right: links */}

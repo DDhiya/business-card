@@ -43,7 +43,11 @@ export default function AboutMe() {
                 <br></br>
                 {/* Summary */}
                 <p className="text-[15px] leading-relaxed text-justify" style={{ color: "#333" }}>
-                    I’m a project engineer at Flow Studios who turns fuzzy ideas into products people actually use. I lead end-to-end initiatives across web, mobile, and IoT R&D—aligning requirements, shaping user journeys, and driving delivery to production. Recently I led a company-wide Pre-Delivery Inspection platform from concept and stakeholder workshops through rollout and change management. I also engineered a WhatsApp chatbot powered by ChatGPT that serves as an aquaculture assistant for farmers, drawing on live farm data to provide tailored answers. I focus on clear communication, fast iteration, and measurable outcomes.
+                    I’m a project engineer at Flow Studios who turns fuzzy ideas into products people actually use. I lead end-to-end initiatives across web, mobile, and IoT R&D—aligning requirements, shaping user journeys, and driving delivery to production.
+                </p>
+                <br></br>
+                <p className="text-[15px] leading-relaxed text-justify" style={{ color: "#333" }}>
+                    Recently I led a company-wide Pre-Delivery Inspection platform from concept and stakeholder workshops through rollout and change management. I also engineered a WhatsApp chatbot powered by ChatGPT that serves as an aquaculture assistant for farmers, drawing on live farm data to provide tailored answers. I focus on clear communication, fast iteration, and measurable outcomes.
                 </p>
 
                 <div className="my-6 h-px w-full" style={{ background: "#E4E4DE" }} />
