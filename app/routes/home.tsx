@@ -40,7 +40,7 @@ export default function Home() {
             />
           </div>
 
-          <div>
+          <div className="relative z-10">
             <h1 className="text-2xl font-bold" style={{ color: COLORS.black }}>Dhiyaurrahman Danial</h1>
             <p className="mt-1 text-sm tracking-wide" style={{ color: "#444" }}>
               Project Engineer · Flow Studios Sdn. Bhd.
@@ -48,7 +48,7 @@ export default function Home() {
           </div>
 
           {/* CTAs */}
-          <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+          <div className="relative z-10 mt-2 flex flex-wrap items-center justify-center gap-3">
             <Link to="/about-me"
                   className="rounded-full px-4 py-2 text-sm font-semibold"
                   style={{ color: COLORS.black, background: "#EDEDE8" }}>
@@ -60,7 +60,7 @@ export default function Home() {
         <div className="my-6 h-px w-full" style={{ background: "#E4E4DE" }} />
 
         {/* Contact grid: each card centered horizontally */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-center">
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-center">
           <ContactItem
             icon={<Mail size={18} />}
             label="Email"
@@ -83,7 +83,7 @@ export default function Home() {
         </div>
 
         {/* Socials */}
-        <div className="mt-4 flex gap-3">
+        <div className="relative z-10 mt-4 flex gap-3">
           <SocialLink href="https://www.linkedin.com/in/dhiyadanial/" label="LinkedIn" icon={<Linkedin size={18} />} wide />
           {/* <SocialLink href="#" label="GitHub" icon={<Github size={18} />} /> */}
           <SocialLink href="https://welcome.flowstudios.com.my" label="Website" icon={<Globe size={18} />} wide />
