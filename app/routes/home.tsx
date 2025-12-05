@@ -55,7 +55,7 @@ export default function Home() {
         <div className="my-6 h-px w-full" style={{ background: COLORS.border }} />
 
         {/* Contact grid: each card centered horizontally */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-center">
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-center">
           <ContactItem
             icon={<Mail size={18} />}
             label="Email"
@@ -78,7 +78,7 @@ export default function Home() {
         </div>
 
         {/* Socials */}
-        <div className="mt-4 flex gap-3">
+        <div className="relative z-10 mt-4 flex gap-3">
           <SocialLink href="https://www.linkedin.com/in/dhiyadanial/" label="LinkedIn" icon={<Linkedin size={18} />} wide />
           {/* <SocialLink href="#" label="GitHub" icon={<Github size={18} />} /> */}
           <SocialLink href="https://linktr.ee/dhiya.danial" label="Social Medias" icon={<Globe size={18} />} wide />
