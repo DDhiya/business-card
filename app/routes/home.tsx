@@ -47,7 +47,7 @@ export default function Home() {
           <div>
             <h1 className="text-2xl font-bold" style={{ color: COLORS.text }}>Dhiyaurrahman Danial</h1>
             <p className="mt-1 text-sm tracking-wide" style={{ color: COLORS.mutedText }}>
-              IT Officer · Universiti Malaysia Pahang Al-Sultan Abdullah
+              IT Executive · Universiti Malaysia Pahang Al-Sultan Abdullah
             </p>
           </div>
         </div>
