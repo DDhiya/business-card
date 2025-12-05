@@ -29,20 +29,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <img
                 src={logo}
                 alt="logo"
-                className="h-8 w-8"
+                className="h-6 w-8"
               />
               <Link
                 to="/"
                 className="text-sm font-semibold tracking-wide whitespace-nowrap"
                 style={{ color: "#F7F7F3" }}
               >
-                Flow Studios
+                UMPSA
               </Link>
             </div>
             {/* right: links */}
             <div className="flex items-center gap-3 text-sm" style={{ color: "#F7F7F3" }}>
               <Link to="/" className="hover:opacity-80 transition-opacity">Card</Link>
-              <Link to="/contact" className="hover:opacity-80 transition-opacity">Contact Us!</Link>
+              {/* <Link to="/contact" className="hover:opacity-80 transition-opacity">Contact Us!</Link> */}
             </div>
           </nav>
         </header>
