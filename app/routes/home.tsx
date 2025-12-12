@@ -2,12 +2,12 @@ import React, { type JSX } from "react";
 import { Link } from "react-router";
 import {
   Mail, Phone, MapPin, Linkedin, Globe,
-  Cpu, Bot, Database, Smartphone, CircuitBoard, Box, Wrench, Printer, PenTool
+  Cpu, Database, Smartphone, Server,
+  Route, Code2, Cylinder, BrainCircuit,
+  Terminal, GitBranch
 } from "lucide-react";
 import { motion } from "framer-motion";
 import avatarUrl from "../assets/profile.jpg";
-import logoOUrl from "../assets/logo-O.png?url";
-
 
 const COLORS = {
   primary: "#0E2A47",     // dark blue
@@ -47,9 +47,26 @@ export default function Home() {
           <div>
             <h1 className="text-2xl font-bold" style={{ color: COLORS.text }}>Dhiyaurrahman Danial</h1>
             <p className="mt-1 text-sm tracking-wide" style={{ color: COLORS.mutedText }}>
-              IT Executive · Universiti Malaysia Pahang Al-Sultan Abdullah
+              <a className="hover:underline break-all" target="_blank" rel="noreferrer" href="https://ditec.umpsa.edu.my/">IT Executive · Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA)</a>
             </p>
           </div>
+        </div>
+
+        {/* View Resume */}
+        <div className="pt-6 text-center">
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
+            style={{
+              borderColor: COLORS.border,
+              color: COLORS.text,
+              background: COLORS.white
+            }}
+          >
+            View Résumé
+          </a>
         </div>
 
         <div className="my-6 h-px w-full" style={{ background: COLORS.border }} />
@@ -60,7 +77,7 @@ export default function Home() {
             icon={<Mail size={18} />}
             label="Email"
             value={
-              <a className="hover:underline break-all" href="mailto:dhiyadanial@gmail.com">
+              <a className="hover:underline break-all" href="mailto:dhiyadanial@gmail.com" target="_blank" rel="noreferrer">
                 dhiyadanial@gmail.com
               </a>
             }
@@ -73,7 +90,7 @@ export default function Home() {
           <ContactItem
             icon={<MapPin size={18} />}
             label="Location"
-            value={<span className="hover:underline break-words"><a href="https://maps.app.goo.gl/rHGxYkpvTUEuQ2WQA">DiTec, UMPSA (Pekan)</a></span>}
+            value={<span className="hover:underline break-words"><a href="https://maps.app.goo.gl/rHGxYkpvTUEuQ2WQA" target="_blank" rel="noreferrer">DiTec, UMPSA (Pekan)</a></span>}
           />
         </div>
 
@@ -175,11 +192,11 @@ function AboutMeTechStackCard() {
         <h2 className="text-xl font-bold" style={{ color: COLORS.text }}>
           About me
         </h2>
-        <p className="mt-1 text-sm" style={{ color: COLORS.mutedText }}>
-          I'm the Head of Database Unit at the Centre For Digital Technology (DiTec) at UMPSA (Pekan), where I focus on Oracle and MySQL database performance, backup and recovery, upgrades, and overall system reliability. My role involves ensuring data integrity, improving operational stability, and supporting application teams through optimized database architecture and troubleshooting.</p>
+        <p className="mt-1 text-sm text-justify" style={{ color: COLORS.mutedText }}>
+          I'm the Head of Database Unit at the Centre For Digital Technology (DiTec) at UMPSA (Pekan), where I focus on Oracle database performance, backup and recovery, upgrades, and overall system reliability. My role involves ensuring data integrity, improving operational stability, and supporting application teams through optimized database architecture and troubleshooting.</p>
         <br></br>
-        <p className="mt-1 text-sm" style={{ color: COLORS.mutedText }}>
-          Previously at Flow Studios I build full-stack solutions end-to-end, working across backend APIs, frontend interfaces, and mobile applications. Some of the systems I developed and contributed include Pre-Delivery Inspection System (PDI) for Vehicle Inspection Centres, Farm Management System (FMS) and Air Pressure Monitoring System (APMS). These projects strengthened my experience with Express.js, React, React Native, and embedded IoT systems, allowing me to bridge software, hardware, and data into complete, practical solutions.
+        <p className="mt-1 text-sm text-justify" style={{ color: COLORS.mutedText }}>
+          Previously at Flow Studios I build full-stack solutions end-to-end, working across backend APIs, frontend interfaces, and mobile applications. Some of the systems I developed and contributed include Pre-Delivery Inspection System (PDI), Farm Management System (FMS) and Air Pressure Monitoring System (APMS). These projects strengthened my experience with Express.js, React, React Native, and embedded IoT systems, allowing me to bridge software, hardware, and data into complete, practical solutions.
         </p>
       </header>
 
@@ -198,36 +215,9 @@ function AboutMeTechStackCard() {
           ))}
         </ul>
       </div>
-
-      {/* View Resume */}
-      <div className="pt-6">
-        <a
-          href="/resume.pdf"
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
-          style={{
-            borderColor: COLORS.border,
-            color: COLORS.text,
-            background: COLORS.white
-          }}
-        >
-          View Résumé
-        </a>
-      </div>
     </section>
   );
 }
-
-import {
-  Server,
-  Route,
-  Code2,
-  Cylinder,
-  BrainCircuit,
-  Terminal,
-  GitBranch
-} from "lucide-react";
 
 function TechPill({ label }: { label: string }) {
   const iconMap: Record<string, JSX.Element> = {
@@ -243,33 +233,29 @@ function TechPill({ label }: { label: string }) {
     "Git": <GitBranch size={16} />,
   };
 
-  const icon = iconMap[label] || <Code2 size={16} />; // fallback
+  const icon = iconMap[label] || <Code2 size={16} />;
 
   return (
-    <div
-      className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium"
-      style={{ borderColor: COLORS.border, background: COLORS.white, color: COLORS.text }}
+    <motion.div
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 250, damping: 15 }}
+      className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium cursor-pointer select-none"
+      style={{
+        borderColor: COLORS.border,
+        background: COLORS.white,
+        color: COLORS.text,
+      }}
     >
-      <span className="rounded-md p-1 text-white" style={{ background: COLORS.accent }}>
+      <span
+        className="rounded-md p-1 text-white"
+        style={{ background: COLORS.accent }}
+      >
         {icon}
       </span>
       <span className="leading-tight">{label}</span>
-    </div>
+    </motion.div>
   );
 }
-
-// function Pill({ icon, label }: { icon: React.ReactNode; label: string }) {
-//   return (
-//     <div
-//       className="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-sm font-medium"
-//       style={{ borderColor: COLORS.border, background: COLORS.white, color: COLORS.text }}
-//     >
-//       <span className="rounded-md p-1 text-white" style={{ background: COLORS.accent }}>
-//         {icon}
-//       </span>
-//       <span className="leading-tight">{label}</span>
-//     </div>
-//   );
-// }
 
 
