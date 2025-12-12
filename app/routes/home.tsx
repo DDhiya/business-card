@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import avatarUrl from "../assets/profile.jpg";
+import umpsaLogo from "../assets/logo-umpsa.png";
+import fsLogo from "../assets/logo-O.png";
 
 const COLORS = {
   primary: "#0E2A47",     // dark blue
@@ -25,11 +27,12 @@ export default function Home() {
     <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
       {/* Full width of the page container, centered */}
       <div
-        className="w-full rounded-3xl p-6 shadow-2xl border mx-auto"
+        className="w-full rounded-3xl p-6 shadow-2xl border border-t-0 mx-auto relative overflow-hidden"
         style={{ background: COLORS.offwhite, borderColor: COLORS.border }}
       >
+
         <div
-          className="absolute inset-x-0 top-0 h-1 rounded-t-3xl"
+          className="absolute inset-x-0 top-0 h-1 pointer-events-none"
           style={{ background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.accent})` }}
         />
 
@@ -47,7 +50,7 @@ export default function Home() {
           <div>
             <h1 className="text-2xl font-bold" style={{ color: COLORS.text }}>Dhiyaurrahman Danial</h1>
             <p className="mt-1 text-sm tracking-wide" style={{ color: COLORS.mutedText }}>
-              <a className="hover:underline break-all" target="_blank" rel="noreferrer" href="https://ditec.umpsa.edu.my/">IT Executive · Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA)</a>
+              <a className="hover:underline break-all" target="_blank" rel="noreferrer" href="https://ditec.umpsa.edu.my/">IT Executive · Universiti Malaysia Pahang Al-Sultan Abdullah</a>
             </p>
           </div>
         </div>
@@ -101,7 +104,8 @@ export default function Home() {
           <SocialLink href="https://linktr.ee/dhiya.danial" label="Social Medias" icon={<Globe size={18} />} wide />
         </div>
       </div>
-      <AboutMeTechStackCard />
+      <ExperienceTechStackCard />
+      <AboutMeCard />
     </motion.section>
   );
 }
@@ -163,44 +167,75 @@ function SocialLink({
   );
 }
 
-function AboutMeTechStackCard() {
+function ExperienceTechStackCard() {
   const tech = [
-    "Express.js",
-    "React Router",
-    "React Native",
-    "PHP/Laravel",
-    "MySQL",
-    "Oracle DB",
-    "Arduino/C++ (IoT)",
-    "Python (AI/ML basics)",
-    "Ubuntu",
-    "Git",
+    "Express.js", "React Router", "React Native", "PHP/Laravel",
+    "MySQL", "Oracle DB", "Arduino/C++ (IoT)", "Python (AI/ML basics)",
+    "Ubuntu", "Git",
   ];
 
   return (
     <section
-      className="mt-8 w-full rounded-3xl p-6 shadow-2xl border"
+      className="mt-8 w-full rounded-3xl p-6 shadow-2xl border border-t-0 relative overflow-hidden"
       style={{ background: COLORS.offwhite, borderColor: COLORS.border }}
     >
       <div
-        className="absolute inset-x-0 top-0 h-1 rounded-t-3xl"
+        className="absolute inset-x-0 top-0 h-1 pointer-events-none"
         style={{ background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.accent})` }}
       />
 
-      {/* Header */}
+      {/* Professional Experience */}
       <header className="mb-4">
         <h2 className="text-xl font-bold" style={{ color: COLORS.text }}>
-          About me
+          Professional Experience
         </h2>
-        <p className="mt-1 text-sm text-justify" style={{ color: COLORS.mutedText }}>
-          I'm the Head of Database Unit at the Centre For Digital Technology (DiTec) at UMPSA (Pekan), where I focus on Oracle database performance, backup and recovery, upgrades, and overall system reliability. My role involves ensuring data integrity, improving operational stability, and supporting application teams through optimized database architecture and troubleshooting.</p>
-        <br></br>
-        <p className="mt-1 text-sm text-justify" style={{ color: COLORS.mutedText }}>
-          Previously at Flow Studios I build full-stack solutions end-to-end, working across backend APIs, frontend interfaces, and mobile applications. Some of the systems I developed and contributed include Pre-Delivery Inspection System (PDI), Farm Management System (FMS) and Air Pressure Monitoring System (APMS). These projects strengthened my experience with Express.js, React, React Native, and embedded IoT systems, allowing me to bridge software, hardware, and data into complete, practical solutions.
-        </p>
       </header>
 
-      <div className="my-4 h-px w-full" style={{ background: "#E4E4DE" }} />
+      <div className="space-y-6">
+        {/* UMPSA */}
+        <div>
+          {/* Row: [Logo] [Employer + Meta inline] */}
+          <div className="flex items-start gap-3">
+            <img src={umpsaLogo} alt="UMPSA" className="h-14 w-14 rounded-md object-contain shrink-0" />
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <h3 className="text-lg font-semibold" style={{ color: COLORS.text }}>
+                Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA)
+              </h3>
+              <span className="text-sm italic" style={{ color: COLORS.mutedText }}>
+                · IT Executive · Pekan, Pahang · Dec 2025 — Current
+              </span>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
+            Leading the Database Unit at Centre for Digital Technology (DiTec) managing Oracle systems, performance tuning, and all database-related projects.
+          </p>
+        </div>
+
+        {/* Flow Studios */}
+        <div>
+          {/* Row: [Logo] [Employer + Meta inline] */}
+          <div className="flex items-start gap-3">
+            <img src={fsLogo} alt="Flow Studios" className="h-8 w-8 rounded-md object-contain shrink-0" />
+            <div className="flex items-baseline gap-2 flex-wrap">
+              <h3 className="text-lg font-semibold" style={{ color: COLORS.text }}>
+                Flow Studios Sdn. Bhd.
+              </h3>
+              <span className="text-sm italic" style={{ color: COLORS.mutedText }}>
+                · Project Engineer · Cyberjaya, Selangor · Feb 2024 — Nov 2025
+              </span>
+            </div>
+          </div>
+
+          {/* Description */}
+          <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
+            Developed backend systems, led a mobile app team, handled deployments, and supported IoT R&D installations.
+          </p>
+        </div>
+      </div>
+
+      <div className="my-4 h-px w-full" style={{ background: COLORS.border }} />
 
       {/* Tech stack */}
       <div>
@@ -215,6 +250,34 @@ function AboutMeTechStackCard() {
           ))}
         </ul>
       </div>
+    </section>
+  );
+}
+
+function AboutMeCard() {
+  return (
+    <section
+      className="mt-8 w-full rounded-3xl p-6 shadow-2xl border border-t-0 relative overflow-hidden"
+      style={{ background: COLORS.offwhite, borderColor: COLORS.border }}
+    >
+      <div
+        className="absolute inset-x-0 top-0 h-1 pointer-events-none"
+        style={{ background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.accent})` }}
+      />
+
+      <header className="mb-4">
+        <h2 className="text-xl font-bold" style={{ color: COLORS.text }}>
+          About me
+        </h2>
+      </header>
+
+      <p className="mt-1 text-sm text-justify" style={{ color: COLORS.mutedText }}>
+        I'm the Head of the Database Unit at the Centre for Digital Technology (DiTec) at UMPSA (Pekan), where I focus on Oracle database performance, backup and recovery, upgrades, and overall system reliability. My role includes planning and coordinating database projects and upgrade initiatives, ensuring data integrity, improving operational stability, and supporting application teams through optimized database architecture and effective troubleshooting.
+      </p>
+      <br />
+      <p className="mt-1 text-sm text-justify" style={{ color: COLORS.mutedText }}>
+        Previously at Flow Studios I build full-stack solutions end-to-end, working across backend APIs, frontend interfaces, and mobile applications. Some of the systems I developed and contributed include Pre-Delivery Inspection System (PDI), Farm Management System (FMS) and Air Pressure Monitoring System (APMS). These projects strengthened my experience with Express.js, React, React Native, and embedded IoT systems, allowing me to bridge software, hardware, and data into complete, practical solutions.
+      </p>
     </section>
   );
 }
@@ -257,5 +320,54 @@ function TechPill({ label }: { label: string }) {
     </motion.div>
   );
 }
+
+function ProfessionalExperienceCard() {
+  return (
+    <section
+      className="mt-8 w-full rounded-3xl p-6 shadow-2xl border relative overflow-hidden"
+      style={{ background: COLORS.offwhite, borderColor: COLORS.border }}
+    >
+      <div
+        className="absolute inset-x-0 top-0 h-1 pointer-events-none"
+        style={{ background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.accent})` }}
+      />
+
+      <header className="mb-4">
+        <h2 className="text-xl font-bold" style={{ color: COLORS.text }}>
+          Professional Experience
+        </h2>
+      </header>
+
+      <div className="space-y-6">
+        {/* UMPSA */}
+        <div>
+          <h3 className="text-lg font-semibold" style={{ color: COLORS.text }}>
+            Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA)
+          </h3>
+          <p className="text-sm italic" style={{ color: COLORS.mutedText }}>
+            IT Executive · Pekan, Pahang · Dec 2025 — Current
+          </p>
+          <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
+            Lead the Database Unit managing Oracle systems, performance tuning, and all database-related projects.
+          </p>
+        </div>
+
+        {/* Flow Studios */}
+        <div>
+          <h3 className="text-lg font-semibold" style={{ color: COLORS.text }}>
+            Flow Studios Sdn. Bhd.
+          </h3>
+          <p className="text-sm italic" style={{ color: COLORS.mutedText }}>
+            Project Engineer · Cyberjaya, Selangor · Feb 2024 — Nov 2025
+          </p>
+          <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
+            Developed backend systems, led a mobile app team, handled deployments, and supported IoT R&D installations.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 
