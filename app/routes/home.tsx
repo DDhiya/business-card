@@ -167,6 +167,8 @@ function SocialLink({
   );
 }
 
+const EXPERIENCE_LAYOUT: "inline" | "stacked" = "stacked";
+
 function ExperienceTechStackCard() {
   const tech = [
     "Express.js", "React Router", "React Native", "PHP/Laravel",
@@ -180,7 +182,7 @@ function ExperienceTechStackCard() {
       style={{ background: COLORS.offwhite, borderColor: COLORS.border }}
     >
       <div
-        className="absolute inset-x-0 top-0 h-1 pointer-events-none"
+        className="absolute inset-x-0 -top-[1px] h-[2px] pointer-events-none"
         style={{ background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.accent})` }}
       />
 
@@ -192,47 +194,23 @@ function ExperienceTechStackCard() {
       </header>
 
       <div className="space-y-6">
-        {/* UMPSA */}
-        <div>
-          {/* Row: [Logo] [Employer + Meta inline] */}
-          <div className="flex items-start gap-3">
-            <img src={umpsaLogo} alt="UMPSA" className="h-14 w-14 rounded-md object-contain shrink-0" />
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <h3 className="text-lg font-semibold" style={{ color: COLORS.text }}>
-                Universiti Malaysia Pahang Al-Sultan Abdullah (UMPSA)
-              </h3>
-              <span className="text-sm italic" style={{ color: COLORS.mutedText }}>
-                · IT Executive · Pekan, Pahang · Dec 2025 — Current
-              </span>
-            </div>
-          </div>
+        <EmployerItem
+          layout={EXPERIENCE_LAYOUT}
+          logoSrc={umpsaLogo}                // import umpsaLogo from "../assets/logo.png"
+          logoAlt="UMPSA"
+          name="Universiti Malaysia Pahang Al-Sultan Abdullah"
+          meta="IT Executive · Pekan, Pahang · Dec 2025 — Current"
+          desc="Leading the Database Unit at Centre for Digital Technology (DiTec) managing Oracle systems, performance tuning, and all database-related projects."
+        />
 
-          {/* Description */}
-          <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
-            Leading the Database Unit at Centre for Digital Technology (DiTec) managing Oracle systems, performance tuning, and all database-related projects.
-          </p>
-        </div>
-
-        {/* Flow Studios */}
-        <div>
-          {/* Row: [Logo] [Employer + Meta inline] */}
-          <div className="flex items-start gap-3">
-            <img src={fsLogo} alt="Flow Studios" className="h-8 w-8 rounded-md object-contain shrink-0" />
-            <div className="flex items-baseline gap-2 flex-wrap">
-              <h3 className="text-lg font-semibold" style={{ color: COLORS.text }}>
-                Flow Studios Sdn. Bhd.
-              </h3>
-              <span className="text-sm italic" style={{ color: COLORS.mutedText }}>
-                · Project Engineer · Cyberjaya, Selangor · Feb 2024 — Nov 2025
-              </span>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
-            Developed backend systems, led a mobile app team, handled deployments, and supported IoT R&D installations.
-          </p>
-        </div>
+        <EmployerItem
+          layout={EXPERIENCE_LAYOUT}
+          logoSrc={fsLogo}                   // import fsLogo from "../assets/flow-studios.png"
+          logoAlt="Flow Studios"
+          name="Flow Studios Sdn. Bhd."
+          meta="Project Engineer · Cyberjaya, Selangor · Feb 2024 — Nov 2025"
+          desc="Developed backend systems, led a mobile app team, handled deployments, and supported IoT R&D installations."
+        />
       </div>
 
       <div className="my-4 h-px w-full" style={{ background: COLORS.border }} />
@@ -251,6 +229,63 @@ function ExperienceTechStackCard() {
         </ul>
       </div>
     </section>
+  );
+}
+
+/** Reusable job block supporting two layouts */
+function EmployerItem({
+  layout,
+  logoSrc,
+  logoAlt,
+  name,
+  meta,
+  desc,
+}: {
+  layout: "inline" | "stacked";
+  logoSrc: string;
+  logoAlt: string;
+  name: string;
+  meta: string;
+  desc: string;
+}) {
+  if (layout === "inline") {
+    // Logo left, name + meta on same line (wraps nicely on small screens)
+    return (
+      <div>
+        <div className="flex items-start gap-3">
+          <img src={logoSrc} alt={logoAlt} className="h-8 w-8 rounded-md object-contain shrink-0" />
+          <div className="flex items-baseline gap-2 flex-wrap">
+            <h3 className="text-md font-semibold" style={{ color: COLORS.text }}>
+              {name}
+            </h3>
+            <span className="text-sm italic" style={{ color: COLORS.mutedText }}>
+              · {meta}
+            </span>
+          </div>
+        </div>
+        <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
+          {desc}
+        </p>
+      </div>
+    );
+  }
+
+  // 'stacked' layout: logo above name, meta on its own line
+  return (
+    <div>
+      <div className="flex items-center gap-3">
+        <img src={logoSrc} alt={logoAlt} className="h-10 w-10 rounded-md object-contain" />
+        <h3 className="text-md font-semibold" style={{ color: COLORS.text }}>
+          {name}
+        </h3>
+      </div>
+      <p className="text-sm italic" style={{ color: COLORS.mutedText }}>
+        {meta}
+      </p>
+      <p className="mt-1 text-sm leading-6" style={{ color: COLORS.text }}>
+        {desc}
+      </p>
+    </div>
   );
 }
 
