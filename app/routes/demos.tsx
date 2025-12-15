@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
+import pdiDemoMp4 from "../assets/pdi-checklist.mp4";
 
 const COLORS = {
     primary: "#0E2A47",
@@ -44,7 +45,7 @@ export default function Demos() {
                         feature="Lead Developer"
                         video={{
                             webm: "/assets/pdi-checklist.webm",      // replace with your file
-                            mp4: "/assets/pdi-checklist.mp4",        // replace with your file
+                            mp4: pdiDemoMp4,        // replace with your file
                             poster: "/assets/pdi-poster.jpg",        // optional poster
                         }}
                         descriptionPlaceholder="Digitalization of manual paper-based process of checking vehicles before they are sent to the dealerships. Led a team at Flow Studios Sdn. Bhd. to build the web & mobile app for this system catering to different user roles."
