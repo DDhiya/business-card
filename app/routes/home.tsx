@@ -78,7 +78,16 @@ export default function Home() {
         <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-center">
           <ContactItem
             icon={<Mail size={18} />}
-            label="Email"
+            label="UMPSA Email"
+            value={
+              <a className="hover:underline break-all" href="mailto:dhiyadanial@umpsa.edu.my" target="_blank" rel="noreferrer">
+                dhiyadanial@umpsa.edu.my
+              </a>
+            }
+          />
+          <ContactItem
+            icon={<Mail size={18} />}
+            label="Personal Email"
             value={
               <a className="hover:underline break-all" href="mailto:dhiyadanial@gmail.com" target="_blank" rel="noreferrer">
                 dhiyadanial@gmail.com
