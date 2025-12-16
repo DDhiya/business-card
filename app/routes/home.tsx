@@ -75,35 +75,56 @@ export default function Home() {
         <div className="my-6 h-px w-full" style={{ background: COLORS.border }} />
 
         {/* Contact grid: each card centered horizontally */}
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-center">
-          <ContactItem
-            icon={<Mail size={18} />}
-            label="UMPSA Email"
-            value={
-              <a className="hover:underline break-all" href="mailto:dhiyadanial@umpsa.edu.my" target="_blank" rel="noreferrer">
-                dhiyadanial@umpsa.edu.my
-              </a>
-            }
-          />
-          <ContactItem
-            icon={<Mail size={18} />}
-            label="Personal Email"
-            value={
-              <a className="hover:underline break-all" href="mailto:dhiyadanial@gmail.com" target="_blank" rel="noreferrer">
-                dhiyadanial@gmail.com
-              </a>
-            }
-          />
-          <ContactItem
-            icon={<Phone size={18} />}
-            label="Phone"
-            value={<a className="hover:underline break-words" href="https://wa.link/iwdz5c">+60 14-533 2637</a>}
-          />
-          <ContactItem
-            icon={<MapPin size={18} />}
-            label="Location"
-            value={<span className="hover:underline break-words"><a href="https://maps.app.goo.gl/rHGxYkpvTUEuQ2WQA" target="_blank" rel="noreferrer">DiTec, UMPSA (Pekan)</a></span>}
-          />
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 sm:grid-rows-2 gap-3 justify-items-center">
+          {/* Row 1 */}
+          <div className="sm:col-start-1 sm:row-start-1">
+            <ContactItem
+              icon={<Mail size={18} />}
+              label="UMPSA Email"
+              value={
+                <a href="mailto:dhiyadanial@umpsa.edu.my" target="_blank" rel="noreferrer">
+                  dhiyadanial@umpsa.edu.my
+                </a>
+              }
+            />
+          </div>
+
+          <div className="sm:col-start-2 sm:row-start-1">
+            <ContactItem
+              icon={<Mail size={18} />}
+              label="Personal Email"
+              value={
+                <a href="mailto:dhiyadanial@gmail.com" target="_blank" rel="noreferrer">
+                  dhiyadanial@gmail.com
+                </a>
+              }
+            />
+          </div>
+
+          <div className="sm:col-start-3 sm:row-start-1">
+            <ContactItem
+              icon={<Phone size={18} />}
+              label="Phone"
+              value={<a href="https://wa.link/iwdz5c">+60 14-533 2637</a>}
+            />
+          </div>
+
+          {/* Row 2 — center only */}
+          <div className="sm:col-start-2 sm:row-start-2">
+            <ContactItem
+              icon={<MapPin size={18} />}
+              label="Location"
+              value={
+                <a
+                  href="https://maps.app.goo.gl/rHGxYkpvTUEuQ2WQA"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  DiTec, UMPSA (Pekan)
+                </a>
+              }
+            />
+          </div>
         </div>
 
         {/* Socials */}
