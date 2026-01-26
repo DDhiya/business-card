@@ -279,7 +279,7 @@ function ExperienceTechStackCard() {
       style={{ background: COLORS.offwhite, borderColor: COLORS.border }}
     >
       <div
-        className="absolute inset-x-0 -top-[1px] h-[2px] pointer-events-none"
+        className="absolute inset-x-0 top-0 h-1 pointer-events-none"
         style={{ background: `linear-gradient(90deg, ${COLORS.primary}, ${COLORS.accent})` }}
       />
 
