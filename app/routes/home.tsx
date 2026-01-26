@@ -1,11 +1,13 @@
-import React, { type JSX } from "react";
+import { useState, type JSX } from "react";
 import { Link } from "react-router";
 import {
   Mail, Phone, MapPin, Linkedin, Globe,
   Cpu, Database, Smartphone, Server,
   Route, Code2, Cylinder, BrainCircuit,
-  Terminal, GitBranch
+  Terminal, GitBranch, UserPlus, QrCode, Share2
 } from "lucide-react";
+import { generateVCard } from "../utils/vcard";
+import { QRCodeModal } from "../components/QRCodeModal";
 import { motion } from "framer-motion";
 import avatarUrl from "../assets/profile.jpg";
 import umpsaLogo from "../assets/logo-umpsa.png";
@@ -23,8 +25,34 @@ const COLORS = {
 };
 
 export default function Home() {
+  const [showQR, setShowQR] = useState(false);
+
+  const handleShare = async () => {
+    if (typeof window === "undefined") return;
+    const shareData = {
+      title: 'Dhiyaurrahman Danial',
+      text: 'Check out my digital business card!',
+      url: window.location.href,
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error('Error sharing:', err);
+      }
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    }
+  };
+
   return (
     <motion.section initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <QRCodeModal
+        isOpen={showQR}
+        onClose={() => setShowQR(false)}
+        url={typeof window !== "undefined" ? window.location.href : "https://ditec.umpsa.edu.my/"}
+      />
       {/* Full width of the page container, centered */}
       <div
         className="w-full rounded-3xl p-6 shadow-2xl border border-t-0 mx-auto relative overflow-hidden"
@@ -55,8 +83,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* View Resume */}
-        <div className="pt-6 text-center">
+        {/* Actions */}
+        <div className="pt-6 flex flex-wrap justify-center gap-3">
           <a
             href="/resume.pdf"
             target="_blank"
@@ -70,6 +98,45 @@ export default function Home() {
           >
             View Résumé
           </a>
+
+          <button
+            onClick={generateVCard}
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
+            style={{
+              borderColor: COLORS.border,
+              color: COLORS.white,
+              background: COLORS.primary
+            }}
+          >
+            <UserPlus size={16} />
+            Save Contact
+          </button>
+
+          <button
+            onClick={() => setShowQR(true)}
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
+            style={{
+              borderColor: COLORS.border,
+              color: COLORS.text,
+              background: COLORS.white
+            }}
+            title="Show QR Code"
+          >
+            <QrCode size={16} />
+          </button>
+
+          <button
+            onClick={handleShare}
+            className="inline-flex items-center gap-2 rounded-full border px-4 py-3 text-sm font-medium transition-transform hover:-translate-y-0.5"
+            style={{
+              borderColor: COLORS.border,
+              color: COLORS.text,
+              background: COLORS.white
+            }}
+            title="Share"
+          >
+            <Share2 size={16} />
+          </button>
         </div>
 
         <div className="my-6 h-px w-full" style={{ background: COLORS.border }} />
