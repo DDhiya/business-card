@@ -75,7 +75,7 @@ export default function Home() {
         <div className="my-6 h-px w-full" style={{ background: COLORS.border }} />
 
         {/* Contact grid: each card centered horizontally */}
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 sm:grid-rows-2 gap-3 justify-items-center">
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 sm:grid-rows-2 gap-3 justify-items-stretch sm:justify-items-center">
           {/* Row 1 */}
           <div className="sm:col-start-1 sm:row-start-1">
             <ContactItem
@@ -151,7 +151,7 @@ function ContactItem({
 }) {
   return (
     <div
-      className="mx-auto flex items-start gap-2 rounded-xl border p-3 w-full sm:w-[18rem] max-w-full"
+      className="flex items-start gap-2 rounded-xl border p-3 w-full sm:w-[18rem] max-w-full"
       style={{ borderColor: COLORS.border, background: COLORS.white }}
     >
       <div className="mt-0.5 text-white rounded-md p-1 shrink-0" style={{ background: COLORS.accent }}>
