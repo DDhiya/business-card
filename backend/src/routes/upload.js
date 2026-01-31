@@ -1,6 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
+import { apiIsAuthenticated } from '../middleware/auth.js';
 import { fileURLToPath } from 'url';
 
 const router = express.Router();
@@ -32,7 +33,7 @@ const upload = multer({
     }
 });
 
-router.post('/', upload.single('file'), (req, res) => {
+router.post('/', apiIsAuthenticated, upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'Please upload a file' });
     }

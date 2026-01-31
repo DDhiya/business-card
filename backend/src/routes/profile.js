@@ -1,5 +1,6 @@
 import express from 'express';
 import Profile from '../models/Profile.js';
+import { apiIsAuthenticated } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/', async (req, res) => {
 });
 
 // PUT update profile
-router.put('/', async (req, res) => {
+router.put('/', apiIsAuthenticated, async (req, res) => {
     try {
         const profile = await Profile.findOne();
         if (profile) {
