@@ -1,0 +1,253 @@
+<div class="card">
+    <div style="margin-bottom: 2rem;">
+        <h3>Add Social Link</h3>
+        <form action="/admin/social-links" method="POST">
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 1rem; align-items: end;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Platform</label>
+                    <input type="text" name="platform" class="form-control" placeholder="e.g. GitHub" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>URL</label>
+                    <input type="url" name="url" class="form-control" placeholder="https://github.com/username"
+                        required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0; position: relative;">
+                    <label>Icon (Search Lucide)</label>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="text" id="icon-search" name="icon" class="form-control" value="Github"
+                            autocomplete="off" placeholder="Search icons...">
+                        <div id="icon-preview-main"
+                            style="margin-left: 0.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 4px;">
+                            <i data-lucide="github"></i>
+                        </div>
+                    </div>
+                    <div id="icon-dropdown" class="icon-dropdown" style="display: none;">
+                        <div id="icon-list" class="icon-list"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Link</button>
+            </div>
+        </form>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="margin: 0;">Existing Social Links</h3>
+        <span style="font-size: 0.875rem; color: #64748b;">Drag and drop to reorder</span>
+    </div>
+
+    <div id="link-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+        <% links.forEach(link=> { %>
+            <div class="link-item" data-id="<%= link.id %>"
+                style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; cursor: move; position: relative; transition: all 0.2s;">
+                <div id="display-<%= link.id %>" style="display: flex; align-items: center; gap: 1rem;">
+                    <div
+                        style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: #f8fafc; border-radius: 8px; color: var(--accent);">
+                        <i data-lucide="<%= link.icon?.toLowerCase() || 'globe' %>"></i>
+                    </div>
+                    <div style="flex-grow: 1; overflow: hidden;">
+                        <div style="font-weight: 600; color: var(--primary);">
+                            <%= link.platform %>
+                        </div>
+                        <div
+                            style="font-size: 0.85rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <%= link.url %>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.25rem;">
+                        <button type="button" class="btn-icon" onclick="toggleEdit('<%= link.id %>')" title="Edit">
+                            <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                        </button>
+                        <form action="/admin/social-links/<%= link.id %>?_method=DELETE" method="POST"
+                            style="margin: 0;" onsubmit="return confirm('Delete this social link?')">
+                            <button type="submit" class="btn-icon btn-icon-danger" title="Delete">
+                                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="edit-form-<%= link.id %>" style="display: none;">
+                    <form action="/admin/social-links/<%= link.id %>?_method=PUT" method="POST">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <input type="text" name="platform" class="form-control form-control-sm"
+                                value="<%= link.platform %>" required placeholder="Platform">
+                            <input type="text" name="icon" class="form-control form-control-sm" value="<%= link.icon %>"
+                                required placeholder="Icon">
+                        </div>
+                        <input type="url" name="url" class="form-control form-control-sm" value="<%= link.url %>"
+                            required placeholder="URL" style="margin-bottom: 0.5rem;">
+                        <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+                            <button type="button" class="btn btn-sm" onclick="toggleEdit('<%= link.id %>')"
+                                style="background: #e2e8f0;">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+<script>
+    // Initialize Lucide
+    lucide.createIcons();
+
+    function toggleEdit(id) {
+        const displayDiv = document.getElementById(`display-${id}`);
+        const formDiv = document.getElementById(`edit-form-${id}`);
+        if (formDiv.style.display === 'none') {
+            formDiv.style.display = 'block';
+            displayDiv.style.display = 'none';
+        } else {
+            formDiv.style.display = 'none';
+            displayDiv.style.display = 'flex';
+        }
+    }
+
+    // Icon Search Logic
+    const iconSearch = document.getElementById('icon-search');
+    const iconDropdown = document.getElementById('icon-dropdown');
+    const iconList = document.getElementById('icon-list');
+    const mainPreview = document.getElementById('icon-preview-main');
+
+    const commonIcons = [
+        'Github', 'Linkedin', 'Twitter', 'Instagram', 'Youtube', 'Facebook', 'Globe',
+        'Mail', 'MessageCircle', 'Slack', 'Twitch', 'Dribbble', 'Figma', 'Send', 'ExternalLink'
+    ];
+
+    function updatePreview(iconName) {
+        mainPreview.innerHTML = `<i data-lucide="${iconName.toLowerCase()}"></i>`;
+        lucide.createIcons();
+    }
+
+    iconSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        if (query.length < 1) {
+            iconDropdown.style.display = 'none';
+            return;
+        }
+
+        const filtered = commonIcons.filter(icon => icon.toLowerCase().includes(query));
+
+        if (filtered.length > 0) {
+            iconList.innerHTML = filtered.map(icon => `
+                <div class="icon-option" onclick="selectIcon('${icon}')">
+                    <i data-lucide="${icon.toLowerCase()}"></i>
+                    <span>${icon}</span>
+                </div>
+            `).join('');
+            iconDropdown.style.display = 'block';
+            lucide.createIcons();
+        } else {
+            iconDropdown.style.display = 'none';
+        }
+
+        updatePreview(e.target.value || 'globe');
+    });
+
+    window.selectIcon = function (icon) {
+        iconSearch.value = icon;
+        iconDropdown.style.display = 'none';
+        updatePreview(icon);
+    }
+
+    // Close dropdown on click outside
+    document.addEventListener('click', (e) => {
+        if (!iconSearch.contains(e.target) && !iconDropdown.contains(e.target)) {
+            iconDropdown.style.display = 'none';
+        }
+    });
+
+    // Reordering
+    const el = document.getElementById('link-list');
+    if (el) {
+        Sortable.create(el, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: function (evt) {
+                const order = Array.from(el.querySelectorAll('.link-item')).map(item => item.getAttribute('data-id'));
+                fetch('/admin/social-links/reorder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ order })
+                });
+            }
+        });
+    }
+</script>
+
+<style>
+    .icon-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 4px;
+    }
+
+    .icon-option {
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .icon-option:hover {
+        background: #f1f5f9;
+        color: var(--accent);
+    }
+
+    .icon-option i {
+        width: 18px;
+        height: 18px;
+    }
+
+    .btn-icon {
+        background: none;
+        border: none;
+        padding: 4px;
+        cursor: pointer;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        transition: color 0.2s;
+    }
+
+    .btn-icon:hover {
+        color: var(--accent);
+    }
+
+    .btn-icon-danger:hover {
+        color: #ef4444;
+    }
+
+    .sortable-ghost {
+        opacity: 0.4;
+        background: #f1f5f9 !important;
+        border: 2px dashed var(--accent) !important;
+    }
+
+    .link-item:hover {
+        border-color: var(--accent) !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+</style>

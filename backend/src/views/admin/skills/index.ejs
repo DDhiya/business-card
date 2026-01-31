@@ -1,0 +1,242 @@
+<div class="card">
+    <div style="margin-bottom: 2rem;">
+        <h3>Add Skill</h3>
+        <form action="/admin/skills" method="POST">
+            <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>Skill Name</label>
+                    <input type="text" name="name" class="form-control" placeholder="e.g. JavaScript" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0; position: relative;">
+                    <label>Icon (Search Lucide)</label>
+                    <div style="position: relative; display: flex; align-items: center;">
+                        <input type="text" id="icon-search" name="icon" class="form-control" value="Code2"
+                            autocomplete="off" placeholder="Search icons...">
+                        <div id="icon-preview-main"
+                            style="margin-left: 0.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 4px;">
+                            <i data-lucide="code-2"></i>
+                        </div>
+                    </div>
+                    <div id="icon-dropdown" class="icon-dropdown" style="display: none;">
+                        <div id="icon-list" class="icon-list"></div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Skill</button>
+            </div>
+        </form>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="margin: 0;">Existing Skills</h3>
+        <span style="font-size: 0.875rem; color: #64748b;">Drag and drop to reorder</span>
+    </div>
+
+    <div id="skill-list" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        <% skills.forEach(skill=> { %>
+            <div class="skill-item" data-id="<%= skill.id %>"
+                style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: move; position: relative;">
+                <div id="display-<%= skill.id %>" style="display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                        <i data-lucide="<%= skill.icon?.toLowerCase() || 'code-2' %>"></i>
+                    </div>
+                    <span style="font-weight: 500;">
+                        <%= skill.name %>
+                    </span>
+                    <div style="display: flex; gap: 0.25rem; margin-left: 0.5rem;">
+                        <button type="button" class="btn-icon" onclick="toggleEdit('<%= skill.id %>')" title="Edit">
+                            <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
+                        </button>
+                        <form action="/admin/skills/<%= skill.id %>?_method=DELETE" method="POST" style="margin: 0;"
+                            onsubmit="return confirm('Delete this skill?')">
+                            <button type="submit" class="btn-icon btn-icon-danger" title="Delete">
+                                <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="edit-form-<%= skill.id %>" style="display: none;">
+                    <form action="/admin/skills/<%= skill.id %>?_method=PUT" method="POST"
+                        style="display: flex; gap: 0.5rem; align-items: center;">
+                        <input type="text" name="name" class="form-control form-control-sm" value="<%= skill.name %>"
+                            required style="width: 120px;">
+                        <div style="position: relative;">
+                            <input type="text" class="form-control form-control-sm icon-search-edit" name="icon"
+                                value="<%= skill.icon %>" style="width: 100px;">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                        <button type="button" class="btn btn-sm" onclick="toggleEdit('<%= skill.id %>')"
+                            style="background: #e2e8f0;">✕</button>
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+</div>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
+<script>
+    // Initialize Lucide
+    lucide.createIcons();
+
+    function toggleEdit(id) {
+        const displayDiv = document.getElementById(`display-${id}`);
+        const formDiv = document.getElementById(`edit-form-${id}`);
+        if (formDiv.style.display === 'none') {
+            formDiv.style.display = 'flex';
+            displayDiv.style.display = 'none';
+        } else {
+            formDiv.style.display = 'none';
+            displayDiv.style.display = 'flex';
+        }
+    }
+
+    // Icon Search Logic
+    const iconSearch = document.getElementById('icon-search');
+    const iconDropdown = document.getElementById('icon-dropdown');
+    const iconList = document.getElementById('icon-list');
+    const mainPreview = document.getElementById('icon-preview-main');
+
+    // List of some popular Lucide icons as fallback if we can't fetch all
+    const commonIcons = [
+        'Code2', 'Database', 'Layout', 'Server', 'Cpu', 'Terminal', 'Github', 'Globe',
+        'Figma', 'Layers', 'Smartphone', 'Box', 'Cloud', 'Container', 'Workflow', 'GitBranch',
+        'Monitor', 'Package', 'Shield', 'Zap', 'Waves', 'Wind', 'Flame', 'DraftingCompass',
+        'Palette', 'Component', 'Braces', 'FileCode', 'FileJson', 'Wrench', 'Hammer'
+    ];
+
+    function updatePreview(iconName) {
+        mainPreview.innerHTML = `<i data-lucide="${iconName.toLowerCase()}"></i>`;
+        lucide.createIcons();
+    }
+
+    iconSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        if (query.length < 1) {
+            iconDropdown.style.display = 'none';
+            return;
+        }
+
+        const filtered = commonIcons.filter(icon => icon.toLowerCase().includes(query));
+
+        if (filtered.length > 0) {
+            iconList.innerHTML = filtered.map(icon => `
+                <div class="icon-option" onclick="selectIcon('${icon}')">
+                    <i data-lucide="${icon.toLowerCase()}"></i>
+                    <span>${icon}</span>
+                </div>
+            `).join('');
+            iconDropdown.style.display = 'block';
+            lucide.createIcons();
+        } else {
+            iconDropdown.style.display = 'none';
+        }
+
+        // Update live preview for the exact name typed
+        updatePreview(e.target.value || 'code-2');
+    });
+
+    window.selectIcon = function (icon) {
+        iconSearch.value = icon;
+        iconDropdown.style.display = 'none';
+        updatePreview(icon);
+    }
+
+    // Close dropdown on click outside
+    document.addEventListener('click', (e) => {
+        if (!iconSearch.contains(e.target) && !iconDropdown.contains(e.target)) {
+            iconDropdown.style.display = 'none';
+        }
+    });
+
+    // Reordering
+    const el = document.getElementById('skill-list');
+    if (el) {
+        Sortable.create(el, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: function (evt) {
+                const order = Array.from(el.querySelectorAll('.skill-item')).map(item => item.getAttribute('data-id'));
+                fetch('/admin/skills/reorder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ order })
+                });
+            }
+        });
+    }
+</script>
+
+<style>
+    .icon-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        max-height: 200px;
+        overflow-y: auto;
+        margin-top: 4px;
+    }
+
+    .icon-option {
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .icon-option:hover {
+        background: #f1f5f9;
+        color: var(--accent);
+    }
+
+    .icon-option i {
+        width: 18px;
+        height: 18px;
+    }
+
+    .btn-icon {
+        background: none;
+        border: none;
+        padding: 4px;
+        cursor: pointer;
+        color: #64748b;
+        display: flex;
+        align-items: center;
+        transition: color 0.2s;
+    }
+
+    .btn-icon:hover {
+        color: var(--accent);
+    }
+
+    .btn-icon-danger:hover {
+        color: #ef4444;
+    }
+
+    .sortable-ghost {
+        opacity: 0.4;
+        background: #f1f5f9 !important;
+        border: 2px dashed var(--accent) !important;
+    }
+
+    .skill-item:hover {
+        border-color: var(--accent) !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-control-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+</style>
