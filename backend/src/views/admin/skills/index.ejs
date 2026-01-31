@@ -1,19 +1,25 @@
 <div class="card">
-    <div style="margin-bottom: 2rem;">
-        <h3>Add Skill</h3>
+    <div class="page-header">
+        <div class="header-content">
+            <h3>Manage Skills</h3>
+            <p>Add and organize your technical expertise</p>
+        </div>
+    </div>
+
+    <div class="skill-add-section">
         <form action="/admin/skills" method="POST">
-            <div style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+            <div class="form-row" style="grid-template-columns: 1fr 1fr auto; align-items: flex-end;">
                 <div class="form-group" style="margin-bottom: 0;">
                     <label>Skill Name</label>
                     <input type="text" name="name" class="form-control" placeholder="e.g. JavaScript" required>
                 </div>
                 <div class="form-group" style="margin-bottom: 0; position: relative;">
-                    <label>Icon (Search Lucide)</label>
-                    <div style="position: relative; display: flex; align-items: center;">
+                    <label>Icon (Lucide)</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
                         <input type="text" id="icon-search" name="icon" class="form-control" value="Code2"
                             autocomplete="off" placeholder="Search icons...">
-                        <div id="icon-preview-main"
-                            style="margin-left: 0.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 4px;">
+                        <div id="icon-preview-main" class="item-icon"
+                            style="width: 44px; height: 44px; flex-shrink: 0;">
                             <i data-lucide="code-2"></i>
                         </div>
                     </div>
@@ -21,28 +27,30 @@
                         <div id="icon-list" class="icon-list"></div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Add Skill</button>
+                <button type="submit" class="btn btn-accent">Add Skill</button>
             </div>
         </form>
     </div>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h3 style="margin: 0;">Existing Skills</h3>
-        <span style="font-size: 0.875rem; color: #64748b;">Drag and drop to reorder</span>
+    <div class="section-divider" style="margin: 2.5rem 0; height: 1px; background: var(--brand-border);"></div>
+
+    <div class="list-meta"
+        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h4 style="margin: 0; color: var(--brand-primary);">Current Skills</h4>
+        <span style="font-size: 0.75rem; color: var(--brand-muted); font-weight: 500;">Drag and drop to reorder</span>
     </div>
 
-    <div id="skill-list" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    <div id="skill-list" class="skill-list">
         <% skills.forEach(skill=> { %>
-            <div class="skill-item" data-id="<%= skill.id %>"
-                style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.75rem; cursor: move; position: relative;">
-                <div id="display-<%= skill.id %>" style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div style="display: flex; align-items: center; justify-content: center; color: var(--accent);">
+            <div class="skill-pill" data-id="<%= skill.id %>">
+                <div id="display-<%= skill.id %>" style="display: flex; align-items: center; width: 100%;">
+                    <div class="skill-icon">
                         <i data-lucide="<%= skill.icon?.toLowerCase() || 'code-2' %>"></i>
                     </div>
-                    <span style="font-weight: 500;">
+                    <span class="skill-name">
                         <%= skill.name %>
                     </span>
-                    <div style="display: flex; gap: 0.25rem; margin-left: 0.5rem;">
+                    <div class="skill-actions">
                         <button type="button" class="btn-icon" onclick="toggleEdit('<%= skill.id %>')" title="Edit">
                             <i data-lucide="pencil" style="width: 14px; height: 14px;"></i>
                         </button>
@@ -55,18 +63,18 @@
                     </div>
                 </div>
 
-                <div id="edit-form-<%= skill.id %>" style="display: none;">
+                <div id="edit-form-<%= skill.id %>" style="display: none; width: 100%;">
                     <form action="/admin/skills/<%= skill.id %>?_method=PUT" method="POST"
-                        style="display: flex; gap: 0.5rem; align-items: center;">
-                        <input type="text" name="name" class="form-control form-control-sm" value="<%= skill.name %>"
-                            required style="width: 120px;">
-                        <div style="position: relative;">
-                            <input type="text" class="form-control form-control-sm icon-search-edit" name="icon"
-                                value="<%= skill.icon %>" style="width: 100px;">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-sm">Save</button>
-                        <button type="button" class="btn btn-sm" onclick="toggleEdit('<%= skill.id %>')"
-                            style="background: #e2e8f0;">✕</button>
+                        style="display: flex; gap: 0.5rem; align-items: center; width: 100%;">
+                        <input type="text" name="name" class="form-control" value="<%= skill.name %>" required
+                            style="padding: 0.25rem 0.5rem; font-size: 0.8125rem;">
+                        <input type="text" class="form-control" name="icon" value="<%= skill.icon %>"
+                            style="padding: 0.25rem 0.5rem; font-size: 0.8125rem; width: 80px;">
+                        <button type="submit" class="btn btn-primary btn-sm"
+                            style="padding: 0.25rem 0.75rem;">Save</button>
+                        <button type="button" class="btn-icon" onclick="toggleEdit('<%= skill.id %>')">
+                            <i data-lucide="x" style="width: 14px;"></i>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -74,12 +82,10 @@
     </div>
 </div>
 
-<!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 <script>
-    // Initialize Lucide
     lucide.createIcons();
 
     function toggleEdit(id) {
@@ -100,7 +106,6 @@
     const iconList = document.getElementById('icon-list');
     const mainPreview = document.getElementById('icon-preview-main');
 
-    // List of some popular Lucide icons as fallback if we can't fetch all
     const commonIcons = [
         'Code2', 'Database', 'Layout', 'Server', 'Cpu', 'Terminal', 'Github', 'Globe',
         'Figma', 'Layers', 'Smartphone', 'Box', 'Cloud', 'Container', 'Workflow', 'GitBranch',
@@ -134,8 +139,6 @@
         } else {
             iconDropdown.style.display = 'none';
         }
-
-        // Update live preview for the exact name typed
         updatePreview(e.target.value || 'code-2');
     });
 
@@ -145,7 +148,6 @@
         updatePreview(icon);
     }
 
-    // Close dropdown on click outside
     document.addEventListener('click', (e) => {
         if (!iconSearch.contains(e.target) && !iconDropdown.contains(e.target)) {
             iconDropdown.style.display = 'none';
@@ -159,7 +161,7 @@
             animation: 150,
             ghostClass: 'sortable-ghost',
             onEnd: function (evt) {
-                const order = Array.from(el.querySelectorAll('.skill-item')).map(item => item.getAttribute('data-id'));
+                const order = Array.from(el.querySelectorAll('.skill-pill')).map(item => item.getAttribute('data-id'));
                 fetch('/admin/skills/reorder', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -169,74 +171,3 @@
         });
     }
 </script>
-
-<style>
-    .icon-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 1px solid var(--border-color);
-        border-radius: 4px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        max-height: 200px;
-        overflow-y: auto;
-        margin-top: 4px;
-    }
-
-    .icon-option {
-        padding: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .icon-option:hover {
-        background: #f1f5f9;
-        color: var(--accent);
-    }
-
-    .icon-option i {
-        width: 18px;
-        height: 18px;
-    }
-
-    .btn-icon {
-        background: none;
-        border: none;
-        padding: 4px;
-        cursor: pointer;
-        color: #64748b;
-        display: flex;
-        align-items: center;
-        transition: color 0.2s;
-    }
-
-    .btn-icon:hover {
-        color: var(--accent);
-    }
-
-    .btn-icon-danger:hover {
-        color: #ef4444;
-    }
-
-    .sortable-ghost {
-        opacity: 0.4;
-        background: #f1f5f9 !important;
-        border: 2px dashed var(--accent) !important;
-    }
-
-    .skill-item:hover {
-        border-color: var(--accent) !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-
-    .form-control-sm {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.875rem;
-    }
-</style>
