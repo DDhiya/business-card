@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Business Card</title>
+  <link rel="stylesheet" href="/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="admin-container">
+    <nav class="admin-sidebar">
+      <div class="sidebar-header">
+        <h2>BizCard Admin</h2>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="/admin" class="<%= activePage === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
+        <li><a href="/admin/profile" class="<%= activePage === 'profile' ? 'active' : '' %>">Profile</a></li>
+        <li><a href="/admin/contacts" class="<%= activePage === 'contacts' ? 'active' : '' %>">Contacts</a></li>
+        <li><a href="/admin/social-links" class="<%= activePage === 'social-links' ? 'active' : '' %>">Social Links</a></li>
+        <li><a href="/admin/experiences" class="<%= activePage === 'experiences' ? 'active' : '' %>">Experiences</a></li>
+        <li><a href="/admin/skills" class="<%= activePage === 'skills' ? 'active' : '' %>">Skills</a></li>
+        <li><a href="/admin/about-me" class="<%= activePage === 'about-me' ? 'active' : '' %>">About Me</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <a href="http://localhost:5173" target="_blank">View Site</a>
+      </div>
+    </nav>
+    <main class="admin-main">
+      <header class="main-header">
+        <h1><%= title %></h1>
+      </header>
+      <div class="main-content">
+        <%- body %>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
