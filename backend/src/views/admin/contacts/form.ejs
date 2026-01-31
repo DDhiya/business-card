@@ -1,25 +1,25 @@
-<div style="max-width: 800px; margin: 0 auto;">
-    <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
-        <a href="/admin/contacts" class="btn-icon"
-            style="background: white; border: 1px solid var(--border-color); border-radius: 50%; padding: 0.5rem; width: 40px; height: 40px; justify-content: center; display: flex; align-items: center; text-decoration: none; color: #64748b;">
-            <i data-lucide="arrow-left"></i>
-        </a>
-        <h3 style="margin: 0;">
-            <%= contact.id ? 'Edit Contact' : 'Add New Contact' %>
-        </h3>
+<div class="form-container" style="max-width: 800px; margin: 0 auto;">
+    <div class="page-header">
+        <div class="header-content" style="display: flex; align-items: center; gap: 1rem;">
+            <a href="/admin/contacts" class="btn-icon"
+                style="background: var(--white); border: 1px solid var(--brand-border); width: 44px; height: 44px;">
+                <i data-lucide="arrow-left"></i>
+            </a>
+            <h3 style="margin: 0;">
+                <%= contact.id ? 'Edit Contact' : 'Add New Contact' %>
+            </h3>
+        </div>
     </div>
 
-    <div class="card" style="padding: 2rem;">
+    <div class="card">
         <form action="<%= contact.id ? '/admin/contacts/' + contact.id + '?_method=PUT' : '/admin/contacts' %>"
             method="POST">
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-row">
                 <div class="form-group">
                     <label for="type">Method Type</label>
-                    <div style="position: relative;">
-                        <i data-lucide="layers"
-                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; color: #94a3b8;"></i>
-                        <select id="type" name="type" class="form-control" required style="padding-left: 2.5rem;">
+                    <div class="input-with-icon">
+                        <i data-lucide="layers"></i>
+                        <select id="type" name="type" class="form-control" required>
                             <option value="email" <%=contact.type==='email' ? 'selected' : '' %>>Email</option>
                             <option value="phone" <%=contact.type==='phone' ? 'selected' : '' %>>Phone</option>
                             <option value="location" <%=contact.type==='location' ? 'selected' : '' %>>Location</option>
@@ -30,62 +30,57 @@
 
                 <div class="form-group">
                     <label for="label">Display Label</label>
-                    <div style="position: relative;">
-                        <i data-lucide="tag"
-                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; color: #94a3b8;"></i>
+                    <div class="input-with-icon">
+                        <i data-lucide="tag"></i>
                         <input type="text" id="label" name="label" class="form-control"
-                            value="<%= contact.label || '' %>" required style="padding-left: 2.5rem;"
-                            placeholder="e.g. Work Email">
+                            value="<%= contact.label || '' %>" required placeholder="e.g. Work Email">
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="value">Visible Text (Value)</label>
-                <div style="position: relative;">
-                    <i data-lucide="type"
-                        style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; color: #94a3b8;"></i>
+                <div class="input-with-icon">
+                    <i data-lucide="type"></i>
                     <input type="text" id="value" name="value" class="form-control" value="<%= contact.value || '' %>"
-                        required style="padding-left: 2.5rem;" placeholder="e.g. john@example.com">
+                        required placeholder="e.g. john@example.com">
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="link">Click Action (HREF Link)</label>
-                <div style="position: relative;">
-                    <i data-lucide="link"
-                        style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; color: #94a3b8;"></i>
+                <div class="input-with-icon">
+                    <i data-lucide="link"></i>
                     <input type="text" id="link" name="link" class="form-control" value="<%= contact.link || '' %>"
-                        style="padding-left: 2.5rem;" placeholder="e.g. mailto:john@example.com">
+                        placeholder="e.g. mailto:john@example.com">
                 </div>
-                <small style="color: #64748b; display: block; margin-top: 0.25rem;">Use <code>mailto:</code> for emails,
-                    <code>tel:</code> for phones, or a full URL for web links.</small>
+                <small style="color: var(--brand-muted); display: block; margin-top: 0.5rem; font-size: 0.75rem;">
+                    Use mailto: for emails, tel: for phones, or a full URL for web links.
+                </small>
             </div>
 
             <div class="form-group" style="position: relative;">
                 <label for="icon">Icon (Search Lucide)</label>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                    <div style="position: relative; flex-grow: 1;">
-                        <i data-lucide="search"
-                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 18px; color: #94a3b8;"></i>
+                    <div class="input-with-icon" style="flex-grow: 1;">
+                        <i data-lucide="search"></i>
                         <input type="text" id="icon-search" name="icon" class="form-control"
-                            value="<%= contact.icon || 'Mail' %>" autocomplete="off" style="padding-left: 2.5rem;"
-                            placeholder="Search icons...">
+                            value="<%= contact.icon || 'Mail' %>" autocomplete="off" placeholder="Search icons...">
                         <div id="icon-dropdown" class="icon-dropdown" style="display: none;">
-                            <div id="icon-list" class="icon-list"></div>
+                            <div id="icon-list" class="icon-list"
+                                style="grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));"></div>
                         </div>
                     </div>
-                    <div id="icon-preview-main"
-                        style="width: 48px; height: 48px; flex-shrink: 0; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                    <div id="icon-preview-main" class="item-icon" style="width: 50px; height: 50px;">
                         <i data-lucide="<%= contact.icon?.toLowerCase() || 'mail' %>"></i>
                     </div>
                 </div>
             </div>
 
-            <div
-                style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
-                <a href="/admin/contacts" class="btn" style="background: #f1f5f9; color: #475569;">Cancel</a>
-                <button type="submit" class="btn btn-primary" style="padding-left: 2.5rem; padding-right: 2.5rem;">
+            <div class="form-actions"
+                style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--brand-border);">
+                <a href="/admin/contacts" class="btn" style="background: var(--brand-offwhite);">Cancel</a>
+                <button type="submit" class="btn btn-primary" style="min-width: 180px;">
                     <%= contact.id ? 'Save Changes' : 'Create Contact' %>
                 </button>
             </div>
@@ -97,7 +92,6 @@
 <script>
     lucide.createIcons();
 
-    // Icon Search Logic
     const iconSearch = document.getElementById('icon-search');
     const iconDropdown = document.getElementById('icon-dropdown');
     const iconList = document.getElementById('icon-list');
@@ -119,9 +113,7 @@
             iconDropdown.style.display = 'none';
             return;
         }
-
         const filtered = commonIcons.filter(icon => icon.toLowerCase().includes(query));
-
         if (filtered.length > 0) {
             iconList.innerHTML = filtered.map(icon => `
                 <div class="icon-option" onclick="selectIcon('${icon}')">
@@ -134,7 +126,6 @@
         } else {
             iconDropdown.style.display = 'none';
         }
-
         updatePreview(e.target.value || 'mail');
     });
 
@@ -150,51 +141,3 @@
         }
     });
 </script>
-
-<style>
-    .icon-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: white;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        z-index: 100;
-        max-height: 200px;
-        overflow-y: auto;
-        margin-top: 8px;
-    }
-
-    .icon-option {
-        padding: 0.75rem 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .icon-option:hover {
-        background: #f1f5f9;
-        color: var(--accent);
-    }
-
-    .icon-option i {
-        width: 18px;
-        height: 18px;
-    }
-
-    .form-group label {
-        color: #475569;
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-control:focus {
-        border-color: var(--accent);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(10, 124, 134, 0.1);
-    }
-</style>
