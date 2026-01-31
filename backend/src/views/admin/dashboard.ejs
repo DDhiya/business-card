@@ -1,19 +1,22 @@
-<div class="card">
+<div class="card dashboard-welcome">
     <h3>Welcome to the Business Card Admin Panel</h3>
     <p>Select a section from the sidebar to manage your content.</p>
 
-    <div class="dashboard-stats"
-        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-        <div class="card" style="border: 1px solid var(--border-color);">
+    <div class="dashboard-grid">
+        <div class="card stat-card">
             <h4>Profile</h4>
             <p>Manage your name, title, and organization.</p>
-            <a href="/admin/profile" class="btn btn-accent">Edit Profile</a>
+            <a href="/admin/profile" class="btn btn-primary">Edit Profile</a>
         </div>
-        <div class="card" style="border: 1px solid var(--border-color);">
+        <div class="card stat-card">
             <h4>Contacts</h4>
             <p>Manage your email, phone, and location.</p>
-            <a href="/admin/contacts" class="btn btn-accent">Manage Contacts</a>
+            <a href="/admin/contacts" class="btn btn-primary">Manage Contacts</a>
         </div>
-        <!-- More stats/links can be added here -->
+        <div class="card stat-card">
+            <h4>Experiences</h4>
+            <p>List your work history and achievements.</p>
+            <a href="/admin/experiences" class="btn btn-primary">Manage Jobs</a>
+        </div>
     </div>
 </div>
