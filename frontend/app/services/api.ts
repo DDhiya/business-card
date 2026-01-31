@@ -1,6 +1,6 @@
 import type { HomeData } from '../types';
 
-const API_BASE = 'http://localhost:3001/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 export const api = {
     getProfile: () => fetch(`${API_BASE}/profile`).then(r => r.json()),
