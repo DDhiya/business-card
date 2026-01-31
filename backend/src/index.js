@@ -9,6 +9,8 @@ import expressLayouts from 'express-ejs-layouts';
 import passport from './config/passport.js';
 import flash from 'connect-flash';
 import sequelize from './config/database.js';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 // Import routes
 import profileRoutes from './routes/profile.js';
@@ -29,8 +31,30 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"], // Allow inline scripts (EJS) and Google Fonts
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "data:", "blob:", "http:", "https:"], // Allow images from anywhere (placeholders)
+            upgradeInsecureRequests: null, // Disable auto-upgrade to https for localhost
+        },
+    },
+}));
+
+// Rate Limiting
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per windowMs
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+app.use(limiter);
+
 app.use(cors({
-    origin: 'http://localhost:5173', // Vite default port
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
