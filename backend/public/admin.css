@@ -30,12 +30,13 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--bg-color);
   color: var(--white);
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .admin-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 /* Sidebar Styling */
@@ -46,6 +47,8 @@ body {
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .sidebar-header {
@@ -122,13 +125,26 @@ body {
   border-color: var(--brand-accent);
 }
 
+.sidebar-footer .logout-link {
+  margin-top: 0.5rem;
+  color: #fb7185;
+  border-color: rgba(251, 113, 133, 0.2);
+}
+
+.sidebar-footer .logout-link:hover {
+  background-color: rgba(251, 113, 133, 0.1);
+  border-color: #fb7185;
+  color: #fb7185;
+}
+
 /* Main Content Area */
 .admin-main {
   flex-grow: 1;
   min-width: 0;
   height: 100vh;
   overflow-y: auto;
-  padding: 2rem;
+  padding: 2rem 2rem 5rem 2rem;
+  /* Added extra bottom padding */
 }
 
 .main-header {
@@ -147,6 +163,8 @@ body {
 
 .main-content {
   max-width: 1000px;
+  margin-bottom: 4rem;
+  /* Extra space at the bottom of the content */
 }
 
 /* Card Styling - Matching Frontend Profile Card */
@@ -273,14 +291,30 @@ body {
 .header-content h3 {
   margin: 0;
   font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #60a5fa, var(--brand-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card .header-content h3 {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
   color: var(--brand-primary) !important;
-  /* Force visibility inside cards */
 }
 
 .header-content p {
   margin: 0.5rem 0 0 0;
-  color: #94a3b8;
+  color: #cbd5e1;
+  /* Brighter for dark background */
   font-size: 0.875rem;
+}
+
+.card .header-content p {
+  color: var(--brand-muted);
 }
 
 .header-meta {

@@ -8,6 +8,8 @@ import AboutMe from '../models/AboutMe.js';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import passport from 'passport';
+import { isAuthenticated } from '../middleware/auth.js';
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +26,35 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({ storage });
+
+// Login Page
+router.get('/login', (req, res) => {
+    if (req.isAuthenticated()) {
+        return res.redirect('/admin');
+    }
+    res.render('login', {
+        title: 'Login',
+        layout: false // Don't use the main layout for login
+    });
+});
+
+// Login Process
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/admin',
+    failureRedirect: '/admin/login',
+    failureFlash: true
+}));
+
+// Logout
+router.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        res.redirect('/admin/login');
+    });
+});
+
+// Protect all routes below
+router.use(isAuthenticated);
 
 // Dashboard
 router.get('/', async (req, res) => {

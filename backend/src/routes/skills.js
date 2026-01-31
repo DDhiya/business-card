@@ -1,5 +1,6 @@
 import express from 'express';
 import Skill from '../models/Skill.js';
+import { apiIsAuthenticated } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', apiIsAuthenticated, async (req, res) => {
     try {
         const item = await Skill.create(req.body);
         res.status(201).json(item);
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', apiIsAuthenticated, async (req, res) => {
     try {
         await Skill.update(req.body, { where: { id: req.params.id } });
         const item = await Skill.findByPk(req.params.id);
@@ -31,7 +32,7 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', apiIsAuthenticated, async (req, res) => {
     try {
         await Skill.destroy({ where: { id: req.params.id } });
         res.status(204).send();

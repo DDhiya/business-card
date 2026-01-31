@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 import methodOverride from 'method-override';
 import session from 'express-session';
 import expressLayouts from 'express-ejs-layouts';
+import passport from './config/passport.js';
+import flash from 'connect-flash';
 import sequelize from './config/database.js';
 
 // Import routes
@@ -36,10 +38,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(session({
-    secret: 'secret-key',
+    secret: process.env.SESSION_SECRET || 'secret-key',
     resave: false,
     saveUninitialized: true
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+// Global variables for templates
+app.use((req, res, next) => {
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
+    res.locals.user = req.user || null;
+    next();
+});
 
 // Set EJS as view engine
 app.use(expressLayouts);
