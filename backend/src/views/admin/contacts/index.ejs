@@ -1,0 +1,91 @@
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h3 style="margin: 0;">Contact Methods</h3>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <span style="font-size: 0.875rem; color: #64748b;">Drag to reorder</span>
+            <a href="/admin/contacts/new" class="btn btn-accent">Add New Contact</a>
+        </div>
+    </div>
+
+    <div id="contact-list"
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+        <% contacts.forEach(contact=> { %>
+            <div class="contact-item" data-id="<%= contact.id %>"
+                style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; cursor: move; position: relative; transition: all 0.2s; display: flex; flex-direction: column; gap: 1rem;">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div
+                            style="width: 48px; height: 48px; background: #f1f5f9; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--accent);">
+                            <i data-lucide="<%= contact.icon?.toLowerCase() || 'mail' %>"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; color: var(--primary);">
+                                <%= contact.label %>
+                            </div>
+                            <div
+                                style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                                <%= contact.type %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #f8fafc; padding: 0.75rem; border-radius: 8px; border: 1px solid #f1f5f9;">
+                    <div style="font-size: 0.9rem; color: #334155; font-weight: 500; word-break: break-all;">
+                        <%= contact.value %>
+                    </div>
+                    <% if (contact.link) { %>
+                        <div
+                            style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <%= contact.link %>
+                        </div>
+                        <% } %>
+                </div>
+
+                <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: auto;">
+                    <a href="/admin/contacts/<%= contact.id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="/admin/contacts/<%= contact.id %>?_method=DELETE" method="POST" style="margin: 0;"
+                        onsubmit="return confirm('Remove this contact method?')">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+    lucide.createIcons();
+
+    const el = document.getElementById('contact-list');
+    if (el) {
+        Sortable.create(el, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: function (evt) {
+                const order = Array.from(el.querySelectorAll('.contact-item')).map(item => item.getAttribute('data-id'));
+                fetch('/admin/contacts/reorder', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ order })
+                });
+            }
+        });
+    }
+</script>
+
+<style>
+    .contact-item:hover {
+        border-color: var(--accent) !important;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .sortable-ghost {
+        opacity: 0.3;
+        background: #f1f5f9 !important;
+        border: 2px dashed var(--accent) !important;
+    }
+</style>
