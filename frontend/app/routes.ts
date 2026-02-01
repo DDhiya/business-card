@@ -12,8 +12,6 @@ export default [
 
   route("demos", "./routes/demos.tsx"),
 
-  route("test", "./routes/test.ts"),
-
   // Keep your existing Welcome page at /welcome:
   route("welcome", "./welcome/welcome.tsx"),
 ] satisfies RouteConfig;

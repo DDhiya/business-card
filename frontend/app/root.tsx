@@ -68,3 +68,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return <Outlet />;
 }
+
+export function HydrateFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-[#111111]">
+      <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#0A7C86] border-t-transparent"></div>
+    </div>
+  );
+}

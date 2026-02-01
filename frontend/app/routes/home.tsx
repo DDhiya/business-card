@@ -23,14 +23,14 @@ const COLORS = {
   black: "#111111",
 };
 
-const BACKEND_URL = "http://localhost:3001";
+const BACKEND_URL = (import.meta.env.VITE_API_URL || "http://localhost:3001/api").replace("/api", "");
 
-export async function loader() {
+export async function clientLoader() {
   return await api.getHomeData();
 }
 
 export default function Home() {
-  const { profile, contacts, socialLinks, experiences, skills, aboutMe } = useLoaderData() as any;
+  const { profile, contacts, socialLinks, experiences, skills, aboutMe } = useLoaderData();
   const [showQR, setShowQR] = useState(false);
 
   const handleShare = async () => {

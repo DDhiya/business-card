@@ -1,19 +1,17 @@
 import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import config from './config.cjs';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+const env = process.env.NODE_ENV || 'development';
+const dbConfig = config[env];
 
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
+    dbConfig.database,
+    dbConfig.username,
+    dbConfig.password,
     {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        dialect: 'mysql',
+        host: dbConfig.host,
+        port: dbConfig.port,
+        dialect: dbConfig.dialect,
         logging: false,
     }
 );
