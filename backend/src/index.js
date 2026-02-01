@@ -57,7 +57,8 @@ app.use(limiter);
 
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-api-key', 'Authorization'],
     credentials: true
 }));
 app.use(express.json());
@@ -92,14 +93,17 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Routes
-app.use('/api', requireApiKey);
-app.use('/api/profile', profileRoutes);
-app.use('/api/contacts', contactRoutes);
-app.use('/api/social-links', socialLinkRoutes);
-app.use('/api/experiences', experienceRoutes);
-app.use('/api/skills', skillRoutes);
-app.use('/api/about-me', aboutMeRoutes);
-app.use('/api/upload', uploadRoutes);
+const apiRouter = express.Router();
+apiRouter.use(requireApiKey);
+apiRouter.use('/profile', profileRoutes);
+apiRouter.use('/contacts', contactRoutes);
+apiRouter.use('/social-links', socialLinkRoutes);
+apiRouter.use('/experiences', experienceRoutes);
+apiRouter.use('/skills', skillRoutes);
+apiRouter.use('/about-me', aboutMeRoutes);
+apiRouter.use('/upload', uploadRoutes);
+
+app.use('/api', apiRouter);
 
 // Admin Routes
 app.use('/admin', adminRoutes);
