@@ -21,6 +21,7 @@ import skillRoutes from './routes/skills.js';
 import aboutMeRoutes from './routes/aboutMe.js';
 import uploadRoutes from './routes/upload.js';
 import adminRoutes from './routes/admin.js';
+import { requireApiKey } from './middleware/apiKey.js';
 
 dotenv.config();
 
@@ -91,6 +92,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Routes
+app.use('/api', requireApiKey);
 app.use('/api/profile', profileRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/social-links', socialLinkRoutes);
