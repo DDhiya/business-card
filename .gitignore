@@ -8,6 +8,7 @@ frontend/.env
 # React Router
 frontend/.react-router/
 frontend/build/
-backend/uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
 build/
 .env
