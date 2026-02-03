@@ -14,7 +14,8 @@
             <div class="list-item" data-id="<%= contact.id %>">
                 <div class="item-header">
                     <div class="item-icon">
-                        <i data-lucide="<%= contact.icon?.toLowerCase() || 'mail' %>"></i>
+                        <i
+                            data-lucide="<%= (contact.icon || 'mail').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase() %>"></i>
                     </div>
                     <div class="item-info">
                         <div class="item-title">
@@ -49,24 +50,27 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 <script>
-    lucide.createIcons();
-
-    const el = document.getElementById('contact-list');
-    if (el) {
-        Sortable.create(el, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: function (evt) {
-                const order = Array.from(el.querySelectorAll('.list-item')).map(item => item.getAttribute('data-id'));
-                fetch('/admin/contacts/reorder', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ order })
-                });
-            }
-        });
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const contactListEl = document.getElementById('contact-list');
+        if (contactListEl) {
+            Sortable.create(contactListEl, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: function (evt) {
+                    const order = Array.from(contactListEl.querySelectorAll('.list-item')).map(item => item.getAttribute('data-id'));
+                    fetch('/admin/contacts/reorder', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            order
+                        })
+                    });
+                }
+            });
+        }
+    });
 </script>

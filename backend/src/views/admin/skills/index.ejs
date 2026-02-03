@@ -43,9 +43,11 @@
     <div id="skill-list" class="skill-list">
         <% skills.forEach(skill=> { %>
             <div class="skill-pill" data-id="<%= skill.id %>">
-                <div id="display-<%= skill.id %>" style="display: flex; align-items: center; width: 100%;">
+                <div id="display-<%= skill.id %>"
+                    style="display: flex; align-items: center; width: 100%; gap: 0.75rem;">
                     <div class="skill-icon">
-                        <i data-lucide="<%= skill.icon?.toLowerCase() || 'code-2' %>"></i>
+                        <i
+                            data-lucide="<%= (skill.icon || 'code-2').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase() %>"></i>
                     </div>
                     <span class="skill-name">
                         <%= skill.name %>
@@ -82,13 +84,14 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 <script>
-    lucide.createIcons();
+    // Helper to convert CamelCase to kebab-case for Lucide
+    // Handles PascalCase (CodeTwo -> code-two) and numbers (Code2 -> code-2)
+    window.toKebabCase = str => str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').replace(/([a-z])([0-9])/g, '$1-$2').toLowerCase().replace(/^-/, '');
 
-    function toggleEdit(id) {
+    window.toggleEdit = function (id) {
         const displayDiv = document.getElementById(`display-${id}`);
         const formDiv = document.getElementById(`edit-form-${id}`);
         if (formDiv.style.display === 'none') {
@@ -114,7 +117,7 @@
     ];
 
     function updatePreview(iconName) {
-        mainPreview.innerHTML = `<i data-lucide="${iconName.toLowerCase()}"></i>`;
+        mainPreview.innerHTML = `<i data-lucide="${toKebabCase(iconName)}"></i>`;
         lucide.createIcons();
     }
 
@@ -130,7 +133,7 @@
         if (filtered.length > 0) {
             iconList.innerHTML = filtered.map(icon => `
                 <div class="icon-option" onclick="selectIcon('${icon}')">
-                    <i data-lucide="${icon.toLowerCase()}"></i>
+                    <i data-lucide="${toKebabCase(icon)}"></i>
                     <span>${icon}</span>
                 </div>
             `).join('');
@@ -155,19 +158,26 @@
     });
 
     // Reordering
-    const el = document.getElementById('skill-list');
-    if (el) {
-        Sortable.create(el, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: function (evt) {
-                const order = Array.from(el.querySelectorAll('.skill-pill')).map(item => item.getAttribute('data-id'));
-                fetch('/admin/skills/reorder', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ order })
-                });
-            }
-        });
-    }
+    // Reordering
+    document.addEventListener('DOMContentLoaded', () => {
+        const skillListEl = document.getElementById('skill-list');
+        if (skillListEl) {
+            Sortable.create(skillListEl, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: function (evt) {
+                    const order = Array.from(skillListEl.querySelectorAll('.skill-pill')).map(item => item.getAttribute('data-id'));
+                    fetch('/admin/skills/reorder', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            order
+                        })
+                    });
+                }
+            });
+        }
+    });
 </script>

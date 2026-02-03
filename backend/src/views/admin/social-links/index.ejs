@@ -50,7 +50,8 @@
             <div class="list-item link-item" data-id="<%= link.id %>">
                 <div id="display-<%= link.id %>" style="display: flex; align-items: center; width: 100%; gap: 1rem;">
                     <div class="item-icon">
-                        <i data-lucide="<%= link.icon?.toLowerCase() || 'globe' %>"></i>
+                        <i
+                            data-lucide="<%= (link.icon || 'globe').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase() %>"></i>
                     </div>
                     <div class="item-info" style="overflow: hidden;">
                         <div class="item-title">
@@ -95,11 +96,11 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 
 <script>
-    lucide.createIcons();
+    // Helper to convert CamelCase to kebab-case for Lucide
+    const toKebabCase = str => str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
 
     function toggleEdit(id) {
         const displayDiv = document.getElementById(`display-${id}`);
@@ -125,7 +126,7 @@
     ];
 
     function updatePreview(iconName) {
-        mainPreview.innerHTML = `<i data-lucide="${iconName.toLowerCase()}"></i>`;
+        mainPreview.innerHTML = `<i data-lucide="${toKebabCase(iconName)}"></i>`;
         lucide.createIcons();
     }
 
@@ -141,7 +142,7 @@
         if (filtered.length > 0) {
             iconList.innerHTML = filtered.map(icon => `
                 <div class="icon-option" onclick="selectIcon('${icon}')">
-                    <i data-lucide="${icon.toLowerCase()}"></i>
+                    <i data-lucide="${toKebabCase(icon)}"></i>
                     <span>${icon}</span>
                 </div>
             `).join('');
@@ -167,19 +168,26 @@
     });
 
     // Reordering
-    const el = document.getElementById('link-list');
-    if (el) {
-        Sortable.create(el, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            onEnd: function (evt) {
-                const order = Array.from(el.querySelectorAll('.link-item')).map(item => item.getAttribute('data-id'));
-                fetch('/admin/social-links/reorder', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ order })
-                });
-            }
-        });
-    }
+    // Reordering
+    document.addEventListener('DOMContentLoaded', () => {
+        const linkListEl = document.getElementById('link-list');
+        if (linkListEl) {
+            Sortable.create(linkListEl, {
+                animation: 150,
+                ghostClass: 'sortable-ghost',
+                onEnd: function (evt) {
+                    const order = Array.from(linkListEl.querySelectorAll('.link-item')).map(item => item.getAttribute('data-id'));
+                    fetch('/admin/social-links/reorder', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            order
+                        })
+                    });
+                }
+            });
+        }
+    });
 </script>

@@ -52,21 +52,40 @@ body {
 }
 
 .sidebar-header {
-  padding: 2.5rem 2rem;
+  padding: 2.5rem 1.5rem;
   text-align: left;
 }
 
-.sidebar-header h2 {
+.sidebar-logo {
   margin: 0;
-  font-size: 1.375rem;
+  font-size: 1.25rem;
   font-weight: 800;
   letter-spacing: -0.025em;
-  background: linear-gradient(90deg, #1e4d7d, var(--brand-accent));
-  /* Lighter blue for better visibility on dark */
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(10, 124, 134, 0.2));
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.sidebar-logo {
+  color: #2a919b;
+  /* Slightly brighter teal for dark bg */
+}
+
+.sidebar-logo .dot-my {
+  color: var(--white);
+  opacity: 0.9;
+}
+
+.sidebar-logo .admin-tag {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--sidebar-text);
+  background: var(--sidebar-active-bg);
+  padding: 0.125rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-left: 0.25rem;
 }
 
 .sidebar-nav {
@@ -144,7 +163,8 @@ body {
   height: 100vh;
   overflow-y: auto;
   padding: 2rem 2rem 5rem 2rem;
-  /* Added extra bottom padding */
+  display: flex;
+  flex-direction: column;
 }
 
 .main-header {
@@ -162,7 +182,7 @@ body {
 }
 
 .main-content {
-  max-width: 1000px;
+  width: 100%;
   margin-bottom: 4rem;
   /* Extra space at the bottom of the content */
 }
@@ -516,6 +536,7 @@ body {
   gap: 1.25rem;
   transition: all 0.2s ease;
   cursor: move;
+  user-select: none;
 }
 
 .list-item:hover {
@@ -614,6 +635,7 @@ body {
   align-items: center;
   gap: 1.5rem;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
 }
 
 .experience-item:hover {
@@ -688,6 +710,7 @@ body {
   cursor: move;
   transition: all 0.2s;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  user-select: none;
 }
 
 .skill-pill:hover {
@@ -700,6 +723,16 @@ body {
   color: var(--brand-accent);
   display: flex;
   align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.skill-icon i,
+.skill-icon svg {
+  width: 100%;
+  height: 100%;
 }
 
 .skill-name {
@@ -843,4 +876,38 @@ tr:last-child td {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+/* Admin Footer */
+.admin-footer {
+  margin-top: auto;
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--sidebar-text);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.admin-footer p {
+  margin: 0;
+}
+
+.trademark-disclaimer {
+  margin-top: 0.25rem !important;
+  opacity: 0.6;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar {
+    position: fixed;
+    left: -260px;
+    transition: left 0.3s ease;
+    z-index: 1000;
+  }
+
+  .admin-sidebar.show {
+    left: 0;
+  }
 }

@@ -13,7 +13,7 @@
   <div class="admin-container">
     <nav class="admin-sidebar">
       <div class="sidebar-header">
-        <h2>BizCard Admin</h2>
+        <h2 class="sidebar-logo">my-bizcard<span class="dot-my">.my</span> <span class="admin-tag">Admin</span></h2>
       </div>
       <ul class="sidebar-nav">
         <li><a href="/admin" class="<%= activePage === 'dashboard' ? 'active' : '' %>">Dashboard</a></li>
@@ -40,8 +40,16 @@
       <div class="main-content">
         <%- body %>
       </div>
+      <footer class="admin-footer">
+        <p>&copy; <%= new Date().getFullYear() %> my-bizcard.my. All rights reserved.</p>
+        <p class="trademark-disclaimer">my-bizcard.my and BizCard are trademarks of their respective owners.</p>
+      </footer>
     </main>
   </div>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 
 </html>
