@@ -46,12 +46,18 @@ app.use(helmet({
     },
 }));
 
+// Trust proxy (Apache/Cloudflare)
+app.set('trust proxy', 1);
+
 // Rate Limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
+    max: 1000, // Increased limit to prevent false positives during setup
     standardHeaders: true,
     legacyHeaders: false,
+    keyGenerator: (req, res) => {
+        return req.ip; // Use the real IP (thanks to trust proxy)
+    }
 });
 app.use(limiter);
 
