@@ -8,7 +8,7 @@ export const links: LinksFunction = () => [{ rel: "stylesheet", href: appStylesH
 
 const COLORS = { accent: "#F05B2D", offwhite: "#F7F7F3", black: "#111111" };
 // 👇 one source of truth for the page width + side padding
-const CONTAINER = "mx-auto w-full max-w-[900px] px-4 sm:px-6";
+const CONTAINER = "mx-auto w-full max-w-[1100px] px-4 sm:px-6";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

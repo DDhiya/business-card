@@ -132,6 +132,11 @@ apiRouter.use('/upload', uploadRoutes);
 
 app.use('/api', apiRouter);
 
+// Root route - redirect to admin
+app.get('/', (req, res) => {
+    res.redirect('/admin');
+});
+
 // Admin Routes
 app.use('/admin', adminRoutes);
 

@@ -162,7 +162,7 @@ export default function Home() {
         <div className="my-6 h-px w-full" style={{ background: COLORS.border }} />
 
         {/* Contact grid */}
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 justify-items-stretch sm:justify-items-center">
+        <div className="relative z-10 flex flex-wrap justify-center gap-3">
           {contacts.map((contact: Contact) => (
             <ContactItem
               key={contact.id}
