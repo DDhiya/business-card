@@ -67,7 +67,8 @@ const allowedOrigins = [
     'https://dhiya.my-bizcard.my',
     'https://admin.dhiyadanial.my',
     'http://localhost:3001',
-    'http://localhost:8010'
+    'http://localhost:8010',
+    'null'
 ];
 
 app.use(cors({
