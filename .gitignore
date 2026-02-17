@@ -12,3 +12,4 @@ backend/uploads/*
 !backend/uploads/.gitkeep
 build/
 .env
+/.react-router
